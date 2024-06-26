@@ -15,9 +15,9 @@ return new class extends Migration
 
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('first name');
-            $table->string('second name');
-            $table->string('third name');
+            $table->string('first_name');
+            $table->string('second_name');
+            $table->string('third_name');
             $table->string('username')->unique();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -28,9 +28,9 @@ return new class extends Migration
 
         DB::table('users')->insert([
             [
-                'first name' => 'Эрназар',
-                'second name' => 'Сооронбеков',
-                'third name' => 'Азаматович',
+                'first_name' => 'Эрназар',
+                'second_name' => 'Сооронбеков',
+                'third_name' => 'Азаматович',
                 'username' => 'Cheshir',
                 'email' => 'Cheshir@example.com',
                 'password' => bcrypt('123456'),

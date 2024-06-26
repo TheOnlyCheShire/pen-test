@@ -2,20 +2,22 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 Route::get('/', [PageController::class, 'index'] );
 
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
-Route::get('/profile', [PageController::class, 'showProfile']);
+Route::get('/users', [PageController::class, 'showProfile'])->name('users');
+
+Route::get('/register', [UserController::class, 'showRegisterForm'])->name('register');
+
+Route::post('/register', [UserController::class, 'store'])->name('users.store');
+
+Route::post('/users/{id}/update', [UserController::class, 'update'])->name('users.update');
+Route::get('/users/{id}/update', [PageController::class, 'showUpdateForm'])->name('update.form');
+
+Route::delete('/users/{id}/delete', [UserController::class, 'destroy'])->name('users.destroy');
+

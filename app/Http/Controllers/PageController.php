@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
 
 class PageController extends Controller
 {
@@ -13,39 +13,18 @@ class PageController extends Controller
 
     public function showProfile()
     {
-        return view('auth.profile');
+        $users = User::all();
+        return view('auth.users_list', compact('users'));
     }
-
-    public function create()
+    public function showUpdateForm($id)
     {
-        //
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->route('users.index')->with('error', 'User not found');
+        }
+
+        return view('auth.update', compact('user'));
     }
 
-    public function store(Request $request)
-    {
-        //
-    }
-
-
-    public function show(string $id)
-    {
-        //
-    }
-
-    public function edit(string $id)
-    {
-        //
-    }
-
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }
