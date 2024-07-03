@@ -1,63 +1,71 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация пользователя</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        .form-container {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input[type="text"], input[type="password"], input[type="email"]{
-            display: block;
-            margin-bottom: 10px;
-            padding: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
-@if ($errors->any())
-    <ul>
-        @foreach ($errors->all() as $error)
-            <li>{{ $error }}</li>
-        @endforeach
-    </ul>
-@endif
-    <div class="form-container">
-        <h1>Регистрация пользователя</h1>
-        <form id="registerForm" method="POST" action="{{ route('users.store') }}">
-            @csrf
-            <input type="text" name="first_name" placeholder="First Name" required>
-            <input type="text" name="second_name" placeholder="Second Name" required>
-            <input type="text" name="third_name" placeholder="Third Name" required>
-            <input type="text" name="username" placeholder="Username" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" min="8" name="password" placeholder="Password" required>
-            <button type="submit">Зарегистрировать</button>
-        </form>
-    </div>
+@extends('layouts.other')
 
-</body>
-</html>
+@section('title', 'Регистрация пользователя')
+
+@section('header')
+    <a class="navbar-brand" href="{{ route('users') }}">К списку пользователей</a>
+@endsection
+
+@section('content')
+    <div class="container mt-4">
+        @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-body">
+                <h1 class="card-title text-center">Регистрация пользователя</h1>
+                <form id="registerForm" method="POST" action="{{ route('users.store') }}">
+                    @csrf
+                    <div class="form-group mb-3">
+                        <label for="first_name" class="form-group mb-1">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="second_name" class="form-group mb-1">Second Name</label>
+                        <input type="text" class="form-control" id="second_name" name="second_name" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="third_name" class="form-group mb-1">Third Name</label>
+                        <input type="text" class="form-control" id="third_name" name="third_name" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="username" class="form-group mb-1">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="email" class="form-group mb-1">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="password" class="form-group mb-1">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+
+                    <div class="form-group mb-3">
+                        <label for="role" class="mb-1">Роль</label>
+                        <select class="form-control text-center" id="role" name="role" required>
+                            @foreach($roles as $role)
+                                <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block">Зарегистрировать</button>
+
+                </form>
+            </div>
+        </div>
+    </div>
+@endsection

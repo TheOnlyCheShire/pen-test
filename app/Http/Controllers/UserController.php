@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -29,6 +30,7 @@ class UserController extends Controller
                 'username' => 'required|string|max:255',
                 'email' => 'required|string|email|max:255',
                 'password' => 'nullable|string|min:6',
+                'role' => 'required|string|exists:roles,name',
             ]);
 
             if (!empty($validatedData['password'])) {
@@ -37,6 +39,9 @@ class UserController extends Controller
                 unset($validatedData['password']);
             }
             $user->update($validatedData);
+
+            $user->syncRoles([$validatedData['role']]);
+
             return redirect()->route('users')->with('success', 'User updated successfully');
         }
         return redirect()->route('users')->with('error', 'User not found');
@@ -44,29 +49,33 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'first_name' => 'required|string|max:255',
             'second_name' => 'required|string|max:255',
             'third_name' => 'required|string|max:255',
             'username' => 'required|string|max:255|unique:users',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
+            'role' => 'required|string|exists:roles,name',
         ]);
 
         $user = new User();
-        $user->first_name = $request['first_name'];
-        $user->second_name = $request['second_name'];
-        $user->third_name = $request['third_name'];
-        $user->username = $request['username'];
-        $user->email = $request['email'];
-        $user->password = Hash::make($request['password']);
+        $user->first_name = $validatedData['first_name'];
+        $user->second_name = $validatedData['second_name'];
+        $user->third_name = $validatedData['third_name'];
+        $user->username = $validatedData['username'];
+        $user->email = $validatedData['email'];
+        $user->password = Hash::make($validatedData['password']);
         $user->save();
+
+        $user->assignRole($validatedData['role']);
 
         return redirect()->route('users');
     }
 
     public function showRegisterForm()
     {
-        return view('auth.register');
+        $roles = Role::all();
+        return view('auth.register', compact('roles'));
     }
 }

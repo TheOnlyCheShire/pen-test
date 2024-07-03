@@ -1,104 +1,88 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Список пользователей</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        h1 {
-            color: #333;
-        }
-        table {
-            width: 80%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        table, th, td {
-            border: 1px solid #333;
-        }
-        th, td {
-            padding: 10px;
-            text-align: left;
-        }
-        .button-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .button {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        .button.edit {
-            background-color: #FF69B4;
-        }
-        .button.delete {
-            background-color: #F44336;
-        }
-        .button.add {
-            background-color: #2196F3;
-        }
-    </style>
-</head>
-<body>
-    <h1>Список пользователей</h1>
+@extends('layouts.other')
 
-    <!-- Таблица пользователей -->
-    <table>
-        <thead>
+@section('title', 'Список пользователей')
+
+@section('header')
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center fw-bolder">
+            <a id="toggle-menu" class="navbar-brand fs-6" href="#">Меню</a>
+            <div id="menu-items" class="d-none">
+                <a id="users-list" class="navbar-brand ms-3 fs-6" href="#">Список пользователей</a>
+                <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">Настройка ролей</a>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('content')
+    <div class="container mt-4">
+        <!-- Таблица пользователей -->
+        <table class="table table-bordered">
+            <thead class="thead-light">
             <tr>
                 <th>ID</th>
-                <th>First Name</th>
-                <th>Second Name</th>
-                <th>Third Name</th>
-                <th class="actions">Действия</th>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Отчество</th>
+                <th>Роль</th>
+                <th class="actions w-25">Действия</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
             @foreach ($users as $user)
-            <tr data-id="{{ $user->id }}">
-                <td>{{ $user->id }}</td>
-                <td>{{ $user->first_name }}</td>
-                <td>{{ $user->second_name }}</td>
-                <td>{{ $user->third_name }}</td>
-                <td class="actions">
-                    <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
+                <tr data-id="{{ $user->id }}">
+                    <td>{{ $user->id }}</td>
+                    <td>{{ $user->first_name }}</td>
+                    <td>{{ $user->second_name }}</td>
+                    <td>{{ $user->third_name }}</td>
+                    <td>
+                        @foreach ($user->roles as $role)
+                            <span>{{ $role->name }}</span>
+                        @endforeach
+                    </td>
 
-                        <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
-                    </form>
-                    <form action="{{ route('update.form', $user->id) }}" method="GET">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-danger">Изменить</button>
-                    </form>
+                    <td class="actions w-25">
+                        <div class="d-flex justify-content-center">
+                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                </div>
+                            </form>
 
-                </td>
+                            <div class="mx-2"></div>
+
+                            <form action="{{ route('update.form', $user->id) }}" method="GET">
+                                @csrf
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
+                                </div>
+                            </form>
+                        </div>
+                    </td>
                 </tr>
             @endforeach
-        </tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <div class="button-container">
-        <form action="{{ route('register') }}" method="GET">
-            <button id="add-button" class="button add">Добавить пользователя</button>
-        </form>
+        <div class="text-center mt-4">
+            <form action="{{ route('register') }}" method="GET">
+                <button id="add-button" class="btn btn-success">Добавить пользователя</button>
+            </form>
+        </div>
     </div>
+@endsection
 
-</body>
-</html>
+@push('scripts')
+    <script>
+        document.getElementById('toggle-menu').addEventListener('click', function() {
+            var menuItems = document.getElementById('menu-items');
+            if (menuItems.classList.contains('d-none')) {
+                menuItems.classList.remove('d-none');
+            } else {
+                menuItems.classList.add('d-none');
+            }
+        });
+    </script>
+@endpush

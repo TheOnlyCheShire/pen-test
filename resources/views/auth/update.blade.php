@@ -1,43 +1,11 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Регистрация пользователя</title>
-    <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-        }
-        .form-container {
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input[type="text"], input[type="password"], input[type="email"]{
-            display: block;
-            margin-bottom: 10px;
-            padding: 10px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-    </style>
-</head>
-<body>
+@extends('layouts.other')
+@section('title', 'Обновление данных пользователя')
+
+@section('header')
+    <a class="navbar-brand" href="{{ route('users') }}">К списку пользователей</a>
+@endsection
+@section('content')
+
 @if ($errors->any())
     <ul>
         @foreach ($errors->all() as $error)
@@ -45,19 +13,49 @@
         @endforeach
     </ul>
 @endif
-<div class="form-container">
-    <h1>Обновление данных пользователя</h1>
-    <form id="updateForm" method="POST" action="{{ route('users.update', $user->id) }}">
-        @csrf
-        <input type="text" name="first_name" placeholder="First Name" value="{{ $user->first_name }}" required>
-        <input type="text" name="second_name" placeholder="Second Name" value="{{ $user->second_name }}" required>
-        <input type="text" name="third_name" placeholder="Third Name" value="{{ $user->third_name }}" required>
-        <input type="text" name="username" placeholder="Username" value="{{ $user->username }}" required>
-        <input type="email" name="email" placeholder="Email" value="{{ $user->email }}" required>
-        <input type="password" name="password" placeholder="Password">
-        <button type="submit">Сохранить данные</button>
-    </form>
+<div class="card mx-auto" style="max-width: 500px;">
+    <div class="card-body">
+        <div class="form-container container">
+            <h1 class="text-center">Обновление данных пользователя</h1>
+            <form id="updateForm" method="POST" action="{{ route('users.update', $user->id) }}">
+                @csrf
+                <div class="form-group">
+                    <label for="first_name" class="form-group mb-1">First name</label>
+                    <input type="text" class="form-control mb-3" name="first_name" value="{{ $user->first_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="second_name" class="form-group mb-1">Second name</label>
+                    <input type="text" class="form-control mb-3" name="second_name" value="{{ $user->second_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="third_name" class="form-group mb-1">Third name</label>
+                    <input type="text" class="form-control mb-3" name="third_name" value="{{ $user->third_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="username" class="form-group mb-1">Username</label>
+                    <input type="text" class="form-control mb-3" name="username" value="{{ $user->username }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email" class="form-group mb-1">Email</label>
+                    <input type="email" class="form-control mb-3" name="email" value="{{ $user->email }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="form-group mb-1">Password</label>
+                    <input type="password" class="form-control mb-3" name="password">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="role" class="mb-1">Роль</label>
+                    <select class="form-control text-center" id="role" name="role" required>
+                        @foreach($roles as $role)
+                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Сохранить данные</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
-
-</body>
-</html>
+@endsection
