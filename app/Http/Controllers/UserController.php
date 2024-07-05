@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -13,6 +14,9 @@ class UserController extends Controller
     {
         $user = User::find($id);
         if ($user) {
+            if ($user->avatar) {
+                Storage::disk('public')->delete($user->avatar);
+            }
             $user->delete();
             return redirect()->route('users');
         }
@@ -22,7 +26,7 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-        if ($user) {
+        if ($user) { //валидация данных
             $validatedData = $request->validate([
                 'first_name' => 'required|string|max:255',
                 'second_name' => 'required|string|max:255',
@@ -31,7 +35,12 @@ class UserController extends Controller
                 'email' => 'required|string|email|max:255',
                 'password' => 'nullable|string|min:6',
                 'role' => 'required|string|exists:roles,name',
+                'avatar' =>'nullable|image|max:2048',
             ]);
+            //удаление старой аватарки
+            if ($user->avatar && $request->hasFile('avatar')) {
+                Storage::disk('public')->delete($user->avatar);
+            }
 
             if (!empty($validatedData['password'])) {
                 $validatedData['password'] = Hash::make($validatedData['password']);
@@ -39,6 +48,14 @@ class UserController extends Controller
                 unset($validatedData['password']);
             }
             $user->update($validatedData);
+
+            //присвоение уникального названия и сохранение аватара
+            $avatarName = $request->file('avatar') ? $user->id.'_'. $request->file('avatar')->getClientOriginalName() : $user->avatar;
+            $avatarPath = "";
+            if ($request->hasFile('avatar')) {
+                $avatarPath = Storage::disk('public')->putFileAs('avatars', $request->file('avatar'), $avatarName);
+            }
+            $user->avatar = $avatarPath;
 
             $user->syncRoles([$validatedData['role']]);
 
@@ -49,7 +66,7 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validatedData = $request->validate([ //валидация данных
             'first_name' => 'required|string|max:255',
             'second_name' => 'required|string|max:255',
             'third_name' => 'required|string|max:255',
@@ -57,8 +74,10 @@ class UserController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6',
             'role' => 'required|string|exists:roles,name',
+            'avatar' => 'nullable|image|max:2048',
         ]);
 
+        //создание пользователя
         $user = new User();
         $user->first_name = $validatedData['first_name'];
         $user->second_name = $validatedData['second_name'];
@@ -66,6 +85,15 @@ class UserController extends Controller
         $user->username = $validatedData['username'];
         $user->email = $validatedData['email'];
         $user->password = Hash::make($validatedData['password']);
+        $user->save();
+
+        //присвоение уникального названия и сохранение аватара
+        $avatarName = $request->file('avatar') ? $user->id.'_'. $request->file('avatar')->getClientOriginalName() : null;
+        $avatarPath = "";
+        if ($request->hasFile('avatar')) {
+            $avatarPath = Storage::disk('public')->putFileAs('avatars', $request->file('avatar'), $avatarName);
+        }
+        $user->avatar = $avatarPath;
         $user->save();
 
         $user->assignRole($validatedData['role']);

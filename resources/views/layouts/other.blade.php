@@ -17,6 +17,7 @@
                         <div class="collapse navbar-collapse">
                             <ul class="navbar-nav ms-auto">
                                 @auth
+                                    <img src="{{ asset(Auth::user()->avatar_url) }}" alt="{{ Auth::user()->first_name }}" class="img-thumbnail rounded-circle" style="width: 50px; height: 50px;">
                                     <li class="nav-item">
                                         <a class="nav-link" href="#">{{ Auth::user()->first_name }} {{ Auth::user()->second_name }}</a>
                                     </li>

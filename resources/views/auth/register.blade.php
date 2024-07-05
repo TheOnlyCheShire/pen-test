@@ -21,8 +21,14 @@
         <div class="card mx-auto" style="max-width: 500px;">
             <div class="card-body">
                 <h1 class="card-title text-center">Регистрация пользователя</h1>
-                <form id="registerForm" method="POST" action="{{ route('users.store') }}">
+                <form id="registerForm" method="POST" action="{{ route('users.store') }}" enctype="multipart/form-data">
                     @csrf
+
+                    <div class="form-group mb-3">
+                        <label for="avatar">Аватарка</label>
+                        <input type="file" class="form-control" name="avatar" id="avatar" accept=".jpeg,.png,.jpg,.gif,.svg">
+                    </div>
+
                     <div class="form-group mb-3">
                         <label for="first_name" class="form-group mb-1">First Name</label>
                         <input type="text" class="form-control" id="first_name" name="first_name" required>

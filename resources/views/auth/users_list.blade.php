@@ -20,7 +20,7 @@
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th>ID</th>
+                <th>Аватар</th>
                 <th>Имя</th>
                 <th>Фамилия</th>
                 <th>Отчество</th>
@@ -31,7 +31,9 @@
             <tbody>
             @foreach ($users as $user)
                 <tr data-id="{{ $user->id }}">
-                    <td>{{ $user->id }}</td>
+                    <td>
+                        <img src="{{ $user->avatar_url }}" alt="{{ $user->first_name }}" class="img-thumbnail rounded-circle" width="50" height="50">
+                    </td>
                     <td>{{ $user->first_name }}</td>
                     <td>{{ $user->second_name }}</td>
                     <td>{{ $user->third_name }}</td>
