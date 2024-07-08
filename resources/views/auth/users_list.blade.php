@@ -7,7 +7,7 @@
         <div class="d-flex align-items-center fw-bolder">
             <a id="toggle-menu" class="navbar-brand fs-6" href="#">Меню</a>
             <div id="menu-items" class="d-none">
-                <a id="users-list" class="navbar-brand ms-3 fs-6" href="#">Список пользователей</a>
+                <a id="users-list" class="navbar-brand ms-3 fs-6" href="{{route('news.index')}}">Новости</a>
                 <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">Настройка ролей</a>
             </div>
         </div>

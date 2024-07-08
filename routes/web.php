@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\RoleController;
-
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\KeywordController;
 
 Route::get('/', [PageController::class, 'index'] );
 Route::get('/users', [PageController::class, 'showProfile'])->name('users');
@@ -25,3 +26,13 @@ Route::get('/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.e
 Route::get('/roles/create', [RoleController::class, 'create'])->name('roles.create');
 Route::post('/roles', [RoleController::class, 'store'])->name('roles.store');
 Route::put('/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
+
+Route::get('/news', [NewsController::class, 'index'])->name('news.index');
+Route::delete('/news/{news}', [NewsController::class, 'destroy'])->name('news.destroy');
+Route::get('/news/{news}/edit', [NewsController::class, 'edit'])->name('news.edit');
+Route::get('/news/create', [NewsController::class, 'create'])->name('news.create');
+Route::post('/news', [NewsController::class, 'store'])->name('news.store');
+Route::put('/news/{news}', [NewsController::class, 'update'])->name('news.update');
+Route::get('/keywords', [KeywordController::class, 'search']);
+
+
