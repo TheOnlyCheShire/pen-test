@@ -1,5 +1,11 @@
 @extends('layouts.other')
 
+@section('header')
+    <div class="d-flex align-items-center">
+        <a class="navbar-brand" href="{{ route('news.index') }}">Назад</a>
+    </div>
+@endsection
+
 @section('content')
     <div class="container">
         <h1>{{ isset($news) ? 'Изменить новость' : 'Добавить новость' }}</h1>

@@ -8,6 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class PageController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:update.form.showUpdateForm')->only(['showUpdateForm']);
+    }
     public function index()
     {
         if (Auth::check()) {

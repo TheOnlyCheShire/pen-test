@@ -11,7 +11,7 @@
         <body class="d-flex flex-column min-vh-100">
 
             @hasSection('header')
-                <header>
+                <header class="px-5">
                     <nav class="navbar navbar-expand-lg navbar-light bg-light">
                         @yield('header')
                         <div class="collapse navbar-collapse">
@@ -28,19 +28,24 @@
                                         </form>
                                     </li>
                                 @endauth
+                                @guest
+                                    <li class="nav-item">
+                                        <a class="btn btn-link nav-link" href="{{ '/' }}">Войти</a>
+                                    </li>
+                                @endguest
                             </ul>
                         </div>
                     </nav>
                 </header>
             @endif
 
-            <main class="flex-grow-1 d-flex justify-content-center align-items-center">
-                <div class="container text-center">
+            <main class="flex-grow-1 d-flex justify-content-center align-items-center px-4">
+                <div class="text-center">
                     @yield('content')
                 </div>
             </main>
 
-            <footer class="d-flex justify-content-center py-3 mt-auto">
+            <footer class="d-flex justify-content-center px-3 mt-auto">
                 <p>@yield('footer')</p>
             </footer>
             @stack('scripts')

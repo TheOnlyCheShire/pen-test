@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:users.update.update')->only(['update']);
+        $this->middleware('role_or_permission:users.destroy.destroy')->only(['destroy']);
+        $this->middleware('role_or_permission:users.store.store')->only(['store']);
+        $this->middleware('role_or_permission:register.showRegisterForm')->only(['showRegisterForm']);
+    }
+
     public function destroy($id)
     {
         $user = User::find($id);

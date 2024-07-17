@@ -3,46 +3,36 @@
 @section('title', 'Настройка ролей')
 
 @section('header')
-    <div class="d-flex justify-content-between align-items-center w-100">
-        <div class="d-flex align-items-center">
-            <a class="navbar-brand" href="{{ route('users') }}">Назад</a>
-        </div>
+    <div class="d-flex align-items-center">
+        <a class="navbar-brand" href="{{ route('users') }}">Назад</a>
     </div>
 @endsection
 
 @section('content')
-    <div class="container mt-4">
+    <div class="container">
         <!-- Таблица ролей -->
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th>Роль</th>
-                <th>Разрешения</th>
-                <th class="actions w-25">Действия</th>
+                <th class="col-6">Роль</th>
+                <th class="col-6">Действия</th>
             </tr>
             </thead>
             <tbody>
             @foreach ($roles as $role)
                 <tr>
-                    <td>{{ $role->name }}</td>
-                    <td></td> <!-- Разрешения пока пустые -->
-                    <td class="actions w-25">
+                    <td class="col-6">{{ $role->name }}</td>
+                    <td class="col-6">
                         <div class="d-flex justify-content-center">
-                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST">
+                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" class="me-2">
                                 @csrf
                                 @method('DELETE')
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
-                                </div>
+                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
                             </form>
-
-                            <div class="mx-2"></div>
 
                             <form action="{{ route('roles.edit', $role->id) }}" method="GET">
                                 @csrf
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
-                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
                             </form>
                         </div>
                     </td>

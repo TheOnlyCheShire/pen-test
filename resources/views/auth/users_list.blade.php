@@ -5,11 +5,8 @@
 @section('header')
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center fw-bolder">
-            <a id="toggle-menu" class="navbar-brand fs-6" href="#">Меню</a>
-            <div id="menu-items" class="d-none">
-                <a id="users-list" class="navbar-brand ms-3 fs-6" href="{{route('news.index')}}">Новости</a>
-                <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">Настройка ролей</a>
-            </div>
+            <a id="users-list" class="navbar-brand ms-3 fs-6" href="{{route('news.index')}}">Новости</a>
+            <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">Настройка ролей</a>
         </div>
     </div>
 @endsection
@@ -75,16 +72,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        document.getElementById('toggle-menu').addEventListener('click', function() {
-            var menuItems = document.getElementById('menu-items');
-            if (menuItems.classList.contains('d-none')) {
-                menuItems.classList.remove('d-none');
-            } else {
-                menuItems.classList.add('d-none');
-            }
-        });
-    </script>
-@endpush

@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('role_or_permission:news.destroy.destroy')->only(['destroy']);
+        $this->middleware('role_or_permission:news.store.store')->only(['store']);
+        $this->middleware('role_or_permission:news.edit.edit')->only(['edit']);
+        $this->middleware('role_or_permission:news.create.create')->only(['create']);
+        $this->middleware('role_or_permission:news.update.update')->only(['update']);
+    }
     public function index()
     {
         $news = News::with('keywords', 'images')->get();
