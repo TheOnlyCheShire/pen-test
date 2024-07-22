@@ -7,6 +7,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\KeywordController;
+use App\Http\Controllers\LanguageController;
+
+Route::get('lang/{lang}', [LanguageController::class, 'switchLang'])->name('lang.switch');
 
 Route::get('/', [PageController::class, 'index']);
 

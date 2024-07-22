@@ -2,30 +2,30 @@
 
 @section('header')
     <div class="d-flex align-items-center">
-        <a class="navbar-brand" href="{{ route('roles.index') }}">Назад</a>
+        <a class="navbar-brand" href="{{ route('roles.index') }}">{{ __('messages.back') }}</a>
     </div>
 @endsection
 
 @section('content')
     <div class="container">
-        <h1>Редактирование</h1>
+        <h1>{{ __('messages.edit') }}</h1>
         <form action="{{ route('roles.update', $role->id) }}" method="POST">
             @csrf
             @method('PUT')
 
             <div class="form-group">
-                <label for="name">Название Роли</label>
+                <label for="name">{{ __('messages.role_name') }}</label>
                 <input type="text" id="name" name="name" value="{{ old('name', $role->name) }}" class="form-control">
             </div>
 
             <div class="form-group mt-3">
-                <label for="permissions">Разрешения</label>
+                <label for="permissions">{{ __('messages.permissions') }}</label>
                 <table class="table table-bordered">
                     <thead class="thead-light">
                     <tr>
                         <th class="text-center">№</th>
-                        <th class="text-center">Название</th>
-                        <th class="text-center">Наличие у Роли</th>
+                        <th class="text-center">{{ __('messages.name') }}</th>
+                        <th class="text-center">{{ __('messages.role_has') }}</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -44,7 +44,7 @@
                 </table>
             </div>
 
-            <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+            <button type="submit" class="btn btn-primary mt-3">{{ __('messages.save_data') }}</button>
         </form>
     </div>
 @endsection

@@ -2,21 +2,21 @@
 
 @section('header')
     <div class="d-flex align-items-center">
-        <a class="navbar-brand" href="{{ route('users') }}">Назад</a>
+        <a class="navbar-brand" href="{{ route('users') }}">{{ __('messages.back') }}</a>
     </div>
 @endsection
 
 @section('content')
     <div class="container">
-        <h1>Список новостей</h1>
+        <h1>{{ __('messages.news_list') }}</h1>
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th>Изображение</th>
-                <th>Заголовок</th>
-                <th>Содержание</th>
-                <th>Ключевые слова</th>
-                <th>Действия</th>
+                <th>{{ __('messages.images') }}</th>
+                <th>{{ __('messages.title') }}</th>
+                <th>{{ __('messages.content') }}</th>
+                <th>{{ __('messages.keywords') }}</th>
+                <th>{{ __('messages.actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -35,17 +35,17 @@
                         @endforeach
                     </td>
                     <td>
-                        <a href="{{ route('news.edit', $newsItem->id) }}" class="btn btn-primary">Редактировать</a>
+                        <a href="{{ route('news.edit', $newsItem->id) }}" class="btn btn-primary">{{ __('messages.edit') }}</a>
                         <form action="{{ route('news.destroy', $newsItem->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Удалить</button>
+                            <button type="submit" class="btn btn-danger">{{ __('messages.delete') }}</button>
                         </form>
                     </td>
                 </tr>
             @endforeach
             </tbody>
         </table>
-        <a href="{{ route('news.create') }}" class="btn btn-success">Добавить новость</a>
+        <a href="{{ route('news.create') }}" class="btn btn-success">{{ __('messages.create') }}</a>
     </div>
 @endsection

@@ -1,12 +1,12 @@
 @extends('layouts.other')
 
-@section('title', 'Список пользователей')
+@section('title', __('messages.users_list'))
 
 @section('header')
     <div class="d-flex justify-content-between align-items-center">
         <div class="d-flex align-items-center fw-bolder">
-            <a id="users-list" class="navbar-brand ms-3 fs-6" href="{{route('news.index')}}">Новости</a>
-            <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">Настройка ролей</a>
+            <a id="users-list" class="navbar-brand ms-3 fs-6" href="{{route('news.index')}}">{{ __('messages.news') }}</a>
+            <a id="role-settings" class="navbar-brand ms-3 fs-6" href="{{route('roles.index')}}">{{ __('messages.roles_set') }}</a>
         </div>
     </div>
 @endsection
@@ -17,12 +17,12 @@
         <table class="table table-bordered">
             <thead class="thead-light">
             <tr>
-                <th>Аватар</th>
-                <th>Имя</th>
-                <th>Фамилия</th>
-                <th>Отчество</th>
-                <th>Роль</th>
-                <th class="actions w-25">Действия</th>
+                <th>{{ __('messages.avatar') }}</th>
+                <th>{{ __('messages.first_name') }}</th>
+                <th>{{ __('messages.second_name') }}</th>
+                <th>{{ __('messages.third_name') }}</th>
+                <th>{{ __('messages.role') }}</th>
+                <th class="actions w-25">{{ __('messages.actions') }}</th>
             </tr>
             </thead>
             <tbody>
@@ -46,7 +46,7 @@
                                 @csrf
                                 @method('DELETE')
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
+                                    <button type="submit" class="btn btn-sm btn-danger">{{ __('messages.delete') }}</button>
                                 </div>
                             </form>
 
@@ -55,7 +55,7 @@
                             <form action="{{ route('update.form', $user->id) }}" method="GET">
                                 @csrf
                                 <div class="text-center">
-                                    <button type="submit" class="btn btn-sm btn-primary">Изменить</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">{{ __('messages.edit') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -67,7 +67,7 @@
 
         <div class="text-center mt-4">
             <form action="{{ route('register') }}" method="GET">
-                <button id="add-button" class="btn btn-success">Добавить пользователя</button>
+                <button id="add-button" class="btn btn-success">{{ __('messages.create') }}</button>
             </form>
         </div>
     </div>
